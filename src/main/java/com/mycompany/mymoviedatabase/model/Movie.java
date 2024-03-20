@@ -1,6 +1,7 @@
 package com.mycompany.mymoviedatabase.model;
 
 import java.util.Objects;
+import java.util.ArrayList;
 
 /**
  *
@@ -9,6 +10,7 @@ import java.util.Objects;
 public class Movie implements Comparable<Movie>{
     private String title;
     private int year;
+    private ArrayList<String> genres;
     private float score;
     private String directedBy;
     private String starring;
@@ -16,6 +18,7 @@ public class Movie implements Comparable<Movie>{
     public Movie(String title, int year) {
         this.title = title;
         this.year = year;
+        this.genres = new ArrayList<>();
     }
 
     public void setTitle(String title) {
@@ -26,6 +29,18 @@ public class Movie implements Comparable<Movie>{
         this.year = year;
     }
 
+    public void setGenres(String genre) {
+        this.genres.add(genre);
+    }
+
+    public boolean findGenre(String genre) {
+        return this.genres.contains(genre);
+    }
+
+    public ArrayList<String> getGenres() {
+        return genres;
+    }
+    
     public void setScore(float score) {
         this.score = score;
     }

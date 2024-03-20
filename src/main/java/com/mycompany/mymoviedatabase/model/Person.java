@@ -11,7 +11,7 @@ import java.util.List;
 public class Person {
     private String Name;
     private LocalDate dateOfBirth;
-    private List<Movie> filmography;
+    private List<Integer> filmography;
 
     public Person(String Name) {
         this.Name = Name;
@@ -21,9 +21,11 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
     
-    public void addMovie(Movie movie) {
-        this.filmography.add(movie);
-        // Test this and make a List or ArrayList of movies and try to remove
-        // one to make a removeMovie Class
+    public void addMovie(Integer movieId) {
+        this.filmography.add(movieId);
+    }
+    
+    public void removeMovie(Integer movieId) {
+        this.filmography.remove(Integer.valueOf(movieId));
     }
 }

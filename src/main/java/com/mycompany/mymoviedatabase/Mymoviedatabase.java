@@ -4,6 +4,10 @@
 
 package com.mycompany.mymoviedatabase;
 
+import com.mycompany.mymoviedatabase.model.Movie;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  *
  * @author NicoIsaia
@@ -11,6 +15,6 @@ package com.mycompany.mymoviedatabase;
 public class Mymoviedatabase {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
     }
 }
