@@ -29,7 +29,7 @@ public class Movie implements Comparable<Movie>{
         this.year = year;
     }
 
-    public void setGenres(String genre) {
+    public void setGenre(String genre) {
         this.genres.add(genre);
     }
 

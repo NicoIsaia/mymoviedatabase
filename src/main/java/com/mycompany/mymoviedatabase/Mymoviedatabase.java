@@ -4,10 +4,6 @@
 
 package com.mycompany.mymoviedatabase;
 
-import com.mycompany.mymoviedatabase.model.Movie;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  *
  * @author NicoIsaia

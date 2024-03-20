@@ -4,6 +4,9 @@
  */
 package com.mycompany.mymoviedatabase.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -17,25 +20,25 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author NicoIsaia
  */
 public class MovieTest {
-
+    
     public MovieTest() {
     }
-
+    
     @BeforeAll
     public static void setUpClass() {
         Movie movie = new Movie("name", 2024);
         Movie differentMovie = new Movie("otherName", 2023);
         Movie sameMovie = new Movie("name", 2024);
     }
-
+    
     @AfterAll
     public static void tearDownClass() {
     }
-
+    
     @BeforeEach
     public void setUp() {
     }
-
+    
     @AfterEach
     public void tearDown() {
     }
@@ -64,6 +67,48 @@ public class MovieTest {
         assertEquals(instance.getYear(), 0);
     }
 
+    /**
+     * Test of setGenre method, of class Movie.
+     */
+    @Test
+    public void testSetGenre() {
+        System.out.println("setGenre");
+        String genre = "genre";
+        Movie instance = new Movie("name", 2024);
+        instance.setGenre(genre);
+        assertTrue(instance.findGenre(genre));
+    }
+
+    /**
+     * Test of findGenre method, of class Movie.
+     */
+    @Test
+    public void testFindGenre() {
+        System.out.println("findGenre");
+        String genre = "genre";
+        String genre2 = "genre2";
+        Movie instance = new Movie("name", 2024);
+        instance.setGenre(genre);
+        instance.setGenre(genre2);
+        assertTrue(instance.findGenre(genre));
+    }
+
+/**
+     * Test of getGenres method, of class Movie.
+     */
+    @Test
+    public void testGetGenres() {
+        System.out.println("getGenres");
+        String genre = "genre";
+        String genre2 = "genre2";
+        Movie instance = new Movie("name", 2024);
+        instance.setGenre(genre);
+        instance.setGenre(genre2);
+        Iterable one = new ArrayList<>(asList(genre, genre2));
+        Iterable two = instance.getGenres();
+        assertIterableEquals(one, two);
+    }    
+    
     /**
      * Test of setScore method, of class Movie.
      */
@@ -179,8 +224,7 @@ public class MovieTest {
     }
 
     /**
-     * Test of equals method, of class Movie.
-     * Same movie.
+     * Test of equals method, of class Movie. Same movie.
      */
     @Test
     public void testEquals() {
@@ -193,8 +237,7 @@ public class MovieTest {
     }
 
     /**
-     * Test of equals method, of class Movie.
-     * Different movie.
+     * Test of equals method, of class Movie. Different movie.
      */
     @Test
     public void testEqualsDifferent() {
@@ -220,5 +263,5 @@ public class MovieTest {
         int result = instance.compareTo(o);
         assertEquals(expResult, result);
     }
-
+    
 }
