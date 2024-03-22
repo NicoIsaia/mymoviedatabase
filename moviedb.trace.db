@@ -1,0 +1,4 @@
+2024-03-22 17:15:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Tabla "MOVIES" no encontrada
+Table "MOVIES" not found; SQL statement:
+SELECT title, year FROM movies [42102-197]

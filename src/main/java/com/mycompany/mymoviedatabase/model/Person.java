@@ -11,18 +11,19 @@ import java.util.List;
 public class Person {
     private String Name;
     private LocalDate dateOfBirth;
-    private List<Integer> filmography;
+    private List<Movie> filmography;
 
     public Person(String Name) {
         this.Name = Name;
     }
 
+    // As yyyy-mm-dd
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
     
-    public void addMovie(Integer movieId) {
-        this.filmography.add(movieId);
+    public void addMovie(Movie movie) {
+        this.filmography.add(movie);
     }
     
     public void removeMovie(Integer movieId) {
