@@ -28,31 +28,37 @@ public class UserInterface {
             System.out.println("1) Load");
             System.out.println("2) Modify");
             System.out.println("3) List");
-            System.out.println("4) Search");
+            System.out.println("4) Search/Filter");
             System.out.println("5) Delete");
             System.out.println("x) Close");
 
             System.out.print("Select option: ");
-            option = scanner.nextLine();
+            option = scanner.nextLine().toLowerCase();
             if (option.equals("1")) {
                 loadMenu(conn, scanner);
 
             } else if (option.equals("2")) {
-                listMovies(conn, scanner);
+                modifyMenu(conn, scanner);
 
             } else if (option.equals("3")) {
-                deleteMovie(conn, scanner);
+                listMenu(conn, scanner);
 
             } else if (option.equals("4")) {
-                searchByTitle(conn, scanner);
+                searchMenu(conn, scanner);
+                
+            } else if (option.equals("5")) {
+                deleteMenu(conn, scanner);
 
             } else if (option.equalsIgnoreCase("x")) {
                 break;
+            } else {
+                System.out.println("Not a valid option.");
             }
 
             /*
-            
-            
+            listMovies(conn, scanner);
+            deleteMovie(conn, scanner);
+            searchByTitle(conn, scanner);
              */
         }
     }
@@ -71,7 +77,7 @@ public class UserInterface {
             System.out.println("x) Back");
             
             System.out.print("Select option: ");
-            String option = scanner.nextLine();
+            String option = scanner.nextLine().toLowerCase();
             if (option.equals("x")) {
                 break;
             } else if (option.equals("1")) {
@@ -81,6 +87,90 @@ public class UserInterface {
 
     }
 
+    public static void modifyMenu(Connection conn, Scanner scanner) throws SQLException {
+        
+        while (true) {
+            System.out.println("Modify Options");
+            System.out.println("==================");
+            System.out.println("1) Modify Movie");
+            System.out.println("2) Modify Person");
+            System.out.println("3) Modify Genre");
+            System.out.println("4) Modify Directed");
+            System.out.println("5) Modify Starring");
+            System.out.println("6) Modify Genre of a Movie");
+            System.out.println("x) Back");
+            
+            System.out.print("Select option: ");
+            String option = scanner.nextLine().toLowerCase();
+            if (option.equals("x")) {
+                break;
+            }
+        }
+    }
+    
+    public static void listMenu(Connection conn, Scanner scanner) throws SQLException {
+        
+        while (true) {
+            System.out.println("List Menu");
+            System.out.println("==============");
+            System.out.println("1) List Movies");
+            System.out.println("2) List People");
+            System.out.println("3) List Genres");
+            System.out.println("x) Back");
+            
+            System.out.print("Select option: ");
+            String option = scanner.nextLine().toLowerCase();
+            if (option.equals("x")) {
+                break;
+            }            
+        }
+    }
+    
+    public static void searchMenu(Connection conn, Scanner scanner) throws SQLException {
+        
+        while (true) {
+            System.out.println("Search Menu");
+            System.out.println("================");
+            System.out.println("1) Search movie by title");
+            System.out.println("2) Filter movies by year");
+            System.out.println("3) Filter movies by director");
+            System.out.println("4) Filter movies by star");
+            System.out.println("5) Filter movies by score");
+            System.out.println("6) Filter movies by genre");
+            System.out.println("7) Filter movies by watched status");
+            System.out.println("x) back");
+            
+            System.out.print("Select option: ");
+            String option = scanner.nextLine().toLowerCase();
+            if (option.equals("x")) {
+                break;
+            }            
+        }
+    }
+    
+    public static void deleteMenu(Connection conn, Scanner scanner) throws SQLException {
+        
+        while (true) {
+            System.out.println("Delete Options");
+            System.out.println("==================");
+            System.out.println("1) Delete Movie");
+            System.out.println("2) Delete Person");
+            System.out.println("3) Delete Genre");
+            System.out.println("4) Delete Directed by");
+            System.out.println("5) Delete Starring");
+            System.out.println("6) Delete genre of movie");
+            System.out.println("x) Back");
+            
+            System.out.print("Select option: ");
+            String option = scanner.nextLine();
+            if (option.equalsIgnoreCase("x")) {
+                break;
+            } else {
+                System.out.println("Not a valid option.");
+            }            
+        }
+    }
+    
     public static void addMovie(Connection conn, Scanner scanner) throws SQLException {
         PreparedStatement insertStatement = conn.prepareStatement("INSERT INTO movies (title, year)"
                 + "VALUES(?,?)");
