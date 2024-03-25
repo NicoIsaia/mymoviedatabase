@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS movies (
 CREATE TABLE IF NOT EXISTS people (
     id IDENTITY PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
-    dateofbirth DATE,
 );
 
 CREATE TABLE IF NOT EXISTS starred (
