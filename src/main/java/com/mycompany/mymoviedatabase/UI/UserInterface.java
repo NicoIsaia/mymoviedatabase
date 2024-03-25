@@ -25,16 +25,17 @@ public class UserInterface {
         while (true) {
             System.out.println("Options");
             System.out.println("==========");
-            System.out.println("1) Add movie");
-            System.out.println("2) List movies");
-            System.out.println("3) Delete movie");
-            System.out.println("4) Search by title");
+            System.out.println("1) Load");
+            System.out.println("2) Modify");
+            System.out.println("3) List");
+            System.out.println("4) Search");
+            System.out.println("5) Delete");
             System.out.println("x) Close");
 
             System.out.print("Select option: ");
             option = scanner.nextLine();
             if (option.equals("1")) {
-                addMovie(conn, scanner);
+                loadMenu(conn, scanner);
 
             } else if (option.equals("2")) {
                 listMovies(conn, scanner);
@@ -48,7 +49,36 @@ public class UserInterface {
             } else if (option.equalsIgnoreCase("x")) {
                 break;
             }
+
+            /*
+            
+            
+             */
         }
+    }
+
+    public static void loadMenu(Connection conn, Scanner scanner) throws SQLException {
+
+        while (true) {
+            System.out.println("Load options");
+            System.out.println("==============");
+            System.out.println("1) Load Movie");
+            System.out.println("2) Load Person");
+            System.out.println("3) Load Genre");
+            System.out.println("4) Set Directed");
+            System.out.println("5) Set Starred");
+            System.out.println("6) Set Genre");
+            System.out.println("x) Back");
+            
+            System.out.print("Select option: ");
+            String option = scanner.nextLine();
+            if (option.equals("x")) {
+                break;
+            } else if (option.equals("1")) {
+                addMovie(conn, scanner);
+            }
+        }
+
     }
 
     public static void addMovie(Connection conn, Scanner scanner) throws SQLException {
