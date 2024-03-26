@@ -68,6 +68,7 @@ public class UserInterface {
     public static void loadMenu(Connection conn, Scanner scanner) throws SQLException {
 
         while (true) {
+            System.out.println("");
             System.out.println("Load options");
             System.out.println("==============");
             System.out.println("1) Load Movie");
@@ -92,6 +93,7 @@ public class UserInterface {
     public static void modifyMenu(Connection conn, Scanner scanner) throws SQLException {
 
         while (true) {
+            System.out.println("");
             System.out.println("Modify Options");
             System.out.println("==================");
             System.out.println("1) Modify Movie");
@@ -113,6 +115,7 @@ public class UserInterface {
     public static void listMenu(Connection conn, Scanner scanner) throws SQLException {
 
         while (true) {
+            System.out.println("");
             System.out.println("List Menu");
             System.out.println("==============");
             System.out.println("1) List Movies");
@@ -133,6 +136,7 @@ public class UserInterface {
     public static void searchMenu(Connection conn, Scanner scanner) throws SQLException {
 
         while (true) {
+            System.out.println("");
             System.out.println("Search Menu");
             System.out.println("================");
             System.out.println("1) Search movie by title");
@@ -155,6 +159,7 @@ public class UserInterface {
     public static void deleteMenu(Connection conn, Scanner scanner) throws SQLException {
 
         while (true) {
+            System.out.println("");
             System.out.println("Delete Options");
             System.out.println("==================");
             System.out.println("1) Delete Movie");
@@ -176,6 +181,7 @@ public class UserInterface {
     }
 
     public static void addMovie(Connection conn, Scanner scanner) throws SQLException {
+        System.out.println("");
         System.out.println("Insert ");
 
         System.out.println("");
@@ -203,8 +209,6 @@ public class UserInterface {
         
         MovieDAO movieDAO = new MovieDAO(conn);
         movieDAO.addMovie(movie);
-        System.out.println("The title of the added movie is: ");
-        System.out.println(movieDAO.getTitle());
 
         /*PreparedStatement insertStatement = conn.prepareStatement("INSERT INTO movies (title, year)"
                 + "VALUES(?,?)");
