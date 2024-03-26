@@ -18,8 +18,10 @@ public class Mymoviedatabase {
     public static void main(String[] args) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./moviedb;INIT=RUNSCRIPT FROM 'classpath:sqlTemplate.sql';")) {
-            //UserInterface ui = new UserInterface(conn, scanner);
-            //ui.run(conn, scanner);
+            UserInterface ui = new UserInterface(conn, scanner);
+            ui.run(conn, scanner);
+            
+            /*
 
             PreparedStatement insertDirector = conn.prepareStatement("INSERT INTO people (name)"
                     + "VALUES(?)");
@@ -53,6 +55,7 @@ public class Mymoviedatabase {
             deleteDirector.setString(1, "%Cameron%");
 
             deleteDirector.execute();
+            */
 
         } catch (SQLException e) {
             e.printStackTrace();

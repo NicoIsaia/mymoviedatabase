@@ -65,8 +65,8 @@ public class MovieTest {
         Movie instance = new Movie("name", 2024);
         instance.setYear(year);
         assertEquals(instance.getYear(), 0);
-    }
-
+    } 
+    
     /**
      * Test of setGenre method, of class Movie.
      */
@@ -145,6 +145,7 @@ public class MovieTest {
         assertEquals(instance.getStarring(), "actor");
     }
 
+    
     /**
      * Test of getTitle method, of class Movie.
      */
@@ -207,7 +208,18 @@ public class MovieTest {
         String result = instance.getStarring();
         assertEquals(expResult, result);
     }
-
+    
+    /**
+     * Test of setWatched and isWatched methods, of class Movie.
+     */
+    @Test
+    public void testSetWatched() {
+        System.out.println("setWatched");
+        Movie instance = new Movie("name", 2024);
+        instance.setWatched(true);
+        assertTrue(instance.isWatched());
+    }
+    
     /**
      * Test of hashCode method, of class Movie.
      */

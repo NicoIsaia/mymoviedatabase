@@ -7,14 +7,16 @@ import java.util.ArrayList;
  *
  * @author NicoIsaia
  */
-public class Movie implements Comparable<Movie>{
+public class Movie implements Comparable<Movie> {
+
     private String title;
     private int year;
     private ArrayList<String> genres;
     private float score;
     private String directedBy;
     private String starring;
-    
+    private boolean watched;
+
     public Movie(String title, int year) {
         this.title = title;
         this.year = year;
@@ -30,21 +32,23 @@ public class Movie implements Comparable<Movie>{
     }
 
     public void setGenre(String genre) {
-        this.genres.add(genre);
+        if (!this.genres.contains(genre)) {
+            this.genres.add(genre);
+        }
     }
 
     public boolean findGenre(String genre) {
         return this.genres.contains(genre);
     }
-
+    
     public ArrayList<String> getGenres() {
         return genres;
     }
-    
+
     public void setScore(float score) {
         this.score = score;
     }
- 
+
     public void setDirectedBy(String directedBy) {
         this.directedBy = directedBy;
     }
@@ -72,6 +76,16 @@ public class Movie implements Comparable<Movie>{
     public String getStarring() {
         return starring;
     }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
+    }
+
+    public boolean isWatched() {
+        return watched;
+    }
+    
+    
 
     @Override
     public int hashCode() {
@@ -109,7 +123,5 @@ public class Movie implements Comparable<Movie>{
             return -1;
         }
     }
-    
-        
-    
+
 }
