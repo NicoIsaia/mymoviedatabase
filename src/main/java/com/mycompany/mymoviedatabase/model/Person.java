@@ -9,12 +9,12 @@ import java.util.List;
  * @author NicoIsaia
  */
 public class Person {
-    private String Name;
+    private String name;
     private LocalDate dateOfBirth;
     private List<Movie> filmography;
 
-    public Person(String Name) {
-        this.Name = Name;
+    public Person(String name) {
+        this.name = name;
     }
 
     // As yyyy-mm-dd
@@ -29,4 +29,11 @@ public class Person {
     public void removeMovie(Integer movieId) {
         this.filmography.remove(Integer.valueOf(movieId));
     }
+
+    @Override
+    public String toString() {
+        return this.name.toString();
+    }
+    
+    
 }
