@@ -23,14 +23,7 @@ public class PersonDAO extends DatabaseDAO {
 
         String name = this.person.getName();
 
-        // Later I'll move this to own method
-        PreparedStatement selectPerson = conn.prepareStatement("SELECT name FROM people WHERE name = ?");
-
-        selectPerson.setString(1, name);
-
-        ResultSet rs = selectPerson.executeQuery();
-
-        if (rs.next()) {
+        if (personExists(name)) {
             System.out.println("Person already in database.");
         } else {
             PreparedStatement insertPerson = conn.prepareStatement("INSERT INTO people (name)"
@@ -55,15 +48,24 @@ public class PersonDAO extends DatabaseDAO {
         selectPerson.setString(1, name);
 
         ResultSet rs = selectPerson.executeQuery();
-        
+
         if (rs.next()) {
             return new Person(rs.getString("name"));
         } else {
             return null;
         }
-        
+
         // Test this method and then make a "personExists" method
         // Same for movies
+    }
 
+    public boolean personExists(String name) throws SQLException {
+        PreparedStatement selectPerson = conn.prepareStatement("SELECT name FROM people WHERE name = ?");
+
+        selectPerson.setString(1, name);
+
+        ResultSet rs = selectPerson.executeQuery();
+
+        return rs.next();
     }
 }
