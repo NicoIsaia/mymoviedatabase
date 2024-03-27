@@ -61,6 +61,9 @@ public class PersonDAO extends DatabaseDAO {
         } else {
             return null;
         }
+        
+        // Test this method and then make a "personExists" method
+        // Same for movies
 
     }
 }

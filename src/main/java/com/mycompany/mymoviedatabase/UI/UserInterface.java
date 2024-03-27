@@ -158,6 +158,8 @@ public class UserInterface {
             String option = scanner.nextLine().toLowerCase();
             if (option.equals("x")) {
                 break;
+            } else if (option.equals("3")) {
+                filterDirector(conn, scanner);
             }
         }
     }
@@ -260,6 +262,8 @@ public class UserInterface {
             System.out.println(name);
         }
     }
+    
+    
 
     public static void deleteMovie(Connection conn, Scanner scanner) throws SQLException {
         PreparedStatement deleteStatement = conn.prepareStatement("DELETE FROM movies WHERE title = ?");
@@ -268,6 +272,23 @@ public class UserInterface {
         deleteStatement.setString(1, movieTitle);
         deleteStatement.execute();
         System.out.println("");
+    }
+    
+    private static void filterDirector(Connection conn, Scanner scanner) throws SQLException {
+        
+        System.out.println("");
+        System.out.println("Insert name of director: ");
+        String name = scanner.nextLine();
+        PersonDAO personDAO = new PersonDAO(conn);
+        Person director = personDAO.getPerson(name);
+        
+        if (director != null) {
+            System.out.println(director.getName() + " found!");
+        } else {
+            System.out.println("Director not found!");
+        }
+        
+        
     }
 
     public static void searchByTitle(Connection conn, Scanner scanner) throws SQLException {
