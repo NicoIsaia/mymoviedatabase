@@ -11,24 +11,14 @@ import java.util.Objects;
  */
 public class Person {
     private String name;
-    private LocalDate dateOfBirth;
     private List<Movie> filmography;
 
     public Person(String name) {
         this.name = name;
     }
 
-    // As yyyy-mm-dd
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
     }
 
     public List<Movie> getFilmography() {
@@ -50,9 +40,8 @@ public class Person {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.name);
-        hash = 23 * hash + Objects.hashCode(this.dateOfBirth);
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.name);
         return hash;
     }
 
@@ -68,10 +57,9 @@ public class Person {
             return false;
         }
         final Person other = (Person) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return Objects.equals(this.dateOfBirth, other.dateOfBirth);
-    }    
+        return Objects.equals(this.name, other.name);
+    }
+    
+    
     
 }
