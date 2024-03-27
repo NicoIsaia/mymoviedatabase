@@ -50,14 +50,14 @@ public class PersonDAO extends DatabaseDAO {
 
     public Person getPerson(String name) throws SQLException {
 
-        PreparedStatement selectPerson = conn.prepareStatement("SELECT name FROM people WHERE name = ?");
+        PreparedStatement selectPerson = conn.prepareStatement("SELECT name FROM people WHERE name ILIKE ?");
 
         selectPerson.setString(1, name);
 
         ResultSet rs = selectPerson.executeQuery();
         
         if (rs.next()) {
-            return new Person(name);
+            return new Person(rs.getString("name"));
         } else {
             return null;
         }

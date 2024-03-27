@@ -121,3 +121,7 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/yon
 	at org.h2.mvstore.FileStore.open(FileStore.java:173)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
 	... 19 more
+2024-03-27 18:44:27 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Error de Sintaxis en sentencia SQL "SELECT NAME FROM PEOPLE WHERE NAME ILIKE %[*]?% "; se esperaba "SELECT, FROM, WITH"
+Syntax error in SQL statement "SELECT NAME FROM PEOPLE WHERE NAME ILIKE %[*]?% "; expected "SELECT, FROM, WITH"; SQL statement:
+SELECT name FROM people WHERE name ILIKE %?% [42001-197]
