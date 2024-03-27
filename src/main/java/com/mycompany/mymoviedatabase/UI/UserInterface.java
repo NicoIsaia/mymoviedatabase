@@ -1,7 +1,9 @@
 package com.mycompany.mymoviedatabase.UI;
 
 import com.mycompany.mymoviedatabase.DAO.MovieDAO;
+import com.mycompany.mymoviedatabase.DAO.PersonDAO;
 import com.mycompany.mymoviedatabase.model.Movie;
+import com.mycompany.mymoviedatabase.model.Person;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -85,6 +87,8 @@ public class UserInterface {
                 break;
             } else if (option.equals("1")) {
                 addMovie(conn, scanner);
+            } else if (option.equals("2")) {
+                addPerson(conn, scanner);
             }
         }
 
@@ -129,6 +133,8 @@ public class UserInterface {
                 break;
             } else if (option.equals("1")) {
                 listMovies(conn, scanner);
+            } else if (option.equals("2")) {
+                listPeople(conn, scanner);
             }
         }
     }
@@ -181,8 +187,6 @@ public class UserInterface {
     }
 
     public static void addMovie(Connection conn, Scanner scanner) throws SQLException {
-        System.out.println("");
-        System.out.println("Insert ");
 
         System.out.println("");
         System.out.print("Insert title: ");
@@ -220,6 +224,18 @@ public class UserInterface {
 
         insertStatement.execute();*/
     }
+    
+    private static void addPerson(Connection conn, Scanner scanner) throws SQLException {
+        System.out.println("");
+        System.out.print("Insert full name: ");
+        String name = scanner.nextLine();
+        
+        Person person = new Person(name);
+        
+        PersonDAO personDAO = new PersonDAO(conn);
+        
+        personDAO.addPerson(person);
+    }
 
     public static void listMovies(Connection conn, Scanner scanner) throws SQLException {
         System.out.println("");
@@ -232,6 +248,17 @@ public class UserInterface {
             System.out.println(movieTitle + " (" + movieYear + ")");
         }
         System.out.println(" ");
+    }
+    
+    private static void listPeople(Connection conn, Scanner scanner) throws SQLException {
+        PreparedStatement selectPeople = conn.prepareStatement("SELECT name FROM people");
+        ResultSet rs = selectPeople.executeQuery();
+        System.out.println("");
+        System.out.println("Printing people: ");
+        while (rs.next()) {
+            String name = rs.getString("name");
+            System.out.println(name);
+        }
     }
 
     public static void deleteMovie(Connection conn, Scanner scanner) throws SQLException {
