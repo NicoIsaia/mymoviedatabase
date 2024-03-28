@@ -1,5 +1,6 @@
 package com.mycompany.mymoviedatabase.UI;
 
+import com.mycompany.mymoviedatabase.DAO.GenreDAO;
 import com.mycompany.mymoviedatabase.DAO.MovieDAO;
 import com.mycompany.mymoviedatabase.DAO.PersonDAO;
 import com.mycompany.mymoviedatabase.model.Movie;
@@ -67,7 +68,7 @@ public class UserInterface {
         }
     }
 
-    public static void loadMenu(Connection conn, Scanner scanner) throws SQLException {
+    public void loadMenu(Connection conn, Scanner scanner) throws SQLException {
 
         while (true) {
             System.out.println("");
@@ -89,6 +90,8 @@ public class UserInterface {
                 addMovie(conn, scanner);
             } else if (option.equals("2")) {
                 addPerson(conn, scanner);
+            } else if (option.equals("3")) {
+                addGenre();
             }
         }
 
@@ -135,6 +138,8 @@ public class UserInterface {
                 listMovies(conn, scanner);
             } else if (option.equals("2")) {
                 listPeople(conn, scanner);
+            } else if (option.equals("3")) {
+                System.out.println("TODO");
             }
         }
     }
@@ -230,6 +235,15 @@ public class UserInterface {
         PersonDAO personDAO = new PersonDAO(conn);
 
         personDAO.addPerson(person);
+    }
+    
+    public void addGenre() throws SQLException {
+        System.out.println("");
+        System.out.print("Insert genre: ");
+        String genre = scanner.nextLine();
+        GenreDAO genreDAO = new GenreDAO(conn);
+        
+        genreDAO.addGenre(genre);
     }
 
     public static void listMovies(Connection conn, Scanner scanner) throws SQLException {
