@@ -12,26 +12,18 @@ import java.sql.SQLException;
  */
 public class MovieDAO extends DatabaseDAO {
 
-    private Movie movie;
-
     public MovieDAO(Connection conn) {
         super(conn);
     }
 
     public void addMovie(Movie movie) throws SQLException {
-        this.movie = movie;
 
         String title = movie.getTitle();
         int year = movie.getYear();
         Float score = movie.getScore();
         boolean watched = movie.isWatched();
 
-        PreparedStatement selectMovie = this.conn.prepareStatement("SELECT title, year FROM movies WHERE title = ? AND year = ?");
-        selectMovie.setString(1, title);
-        selectMovie.setInt(2, year);
-        ResultSet rs = selectMovie.executeQuery();
-
-        if (!rs.next()) {
+        if (!movieExists(title, year)) {
 
             PreparedStatement insertMovie = this.conn.prepareStatement("INSERT INTO movies (title, year, score, watched)"
                     + "VALUES(?, ?, ?, ?)");
@@ -40,7 +32,7 @@ public class MovieDAO extends DatabaseDAO {
             insertMovie.setInt(2, year);
             insertMovie.setFloat(3, score);
             insertMovie.setBoolean(4, watched);
-            
+
             int rowsAffected = insertMovie.executeUpdate();
             System.out.println("");
             if (rowsAffected == 1) {
@@ -48,16 +40,57 @@ public class MovieDAO extends DatabaseDAO {
             } else {
                 System.out.println("Insert failed.");
             }
-            
-            
+
         } else {
             System.out.println("Movie already in database.");
         }
 
     }
 
-    public String getTitle() {
-        return this.movie.getTitle();
+    public Movie getMovie(String title, Integer year) throws SQLException {
+        PreparedStatement selectMovie = this.conn.prepareStatement("SELECT title, year, score, watched FROM movies WHERE title = ? AND year = ?");
+        selectMovie.setString(1, title);
+        selectMovie.setInt(2, year);
+        ResultSet rs = selectMovie.executeQuery();
+        int count = 0;
+        String movieTitle = "";
+        int movieYear = 0;
+        float score = 0.0F;
+        boolean watched = false;
+        while (rs.next()) {
+            count++;
+            movieTitle = rs.getString("title");
+            movieYear = rs.getInt("year");
+            score = rs.getFloat("score");
+            watched = rs.getBoolean("watched");
+        }
+
+        if (count == 1) {
+            Movie movie = new Movie(movieTitle, movieYear);
+            movie.setScore(score);
+            movie.setWatched(watched);
+            return movie;
+        } else if (count >= 1) {
+            System.out.println("The movie is repeated in the database.");
+            Movie movie = new Movie(movieTitle, movieYear);
+            movie.setScore(score);
+            movie.setWatched(watched);
+            return movie;
+        } else {
+            return null;
+        }
+
     }
 
+    public boolean movieExists(String title, Integer year) throws SQLException {
+        PreparedStatement selectMovie = this.conn.prepareStatement("SELECT title, year FROM movies WHERE title = ? AND year = ?");
+        selectMovie.setString(1, title);
+        selectMovie.setInt(2, year);
+        ResultSet rs = selectMovie.executeQuery();
+
+        return rs.next();
+    }
+
+    // TODO movieExists, searchByTitleSoft, searchByTitleStrict, movieToGenre, movieToStar, movieToDirector
+    // getMovieId, getPersonId, getGenreId, getByTitle, getByYear...
 }
