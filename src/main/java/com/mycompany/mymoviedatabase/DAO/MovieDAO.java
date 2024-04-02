@@ -91,6 +91,21 @@ public class MovieDAO extends DatabaseDAO {
         return rs.next();
     }
 
-    // TODO movieExists, searchByTitleSoft, searchByTitleStrict, movieToGenre, movieToStar, movieToDirector
+    public Integer getMovieId(String title, Integer year) throws SQLException {
+        String statement = "SELECT id FROM movies WHERE title = ? AND year = ?";
+        PreparedStatement selectId = this.conn.prepareStatement(statement);
+        selectId.setString(1, title);
+        selectId.setInt(2, year);
+        ResultSet rs = selectId.executeQuery();
+        if (rs.next()) {
+            Integer id = rs.getInt("id");
+            return id;
+        } else {
+            return null;
+        }
+
+    }
+
+    // TODO searchByTitleSoft, searchByTitleStrict, movieToGenre, movieToStar, movieToDirector
     // getMovieId, getPersonId, getGenreId, getByTitle, getByYear...
 }

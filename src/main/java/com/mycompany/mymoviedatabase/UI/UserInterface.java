@@ -56,6 +56,12 @@ public class UserInterface {
 
             } else if (option.equalsIgnoreCase("x")) {
                 break;
+            } else if (option.equalsIgnoreCase("t")) {
+                // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
+                MovieDAO movieDao = new MovieDAO(conn);
+                    Integer id = movieDao.getMovieId("Tetanic", 1997);
+                    System.out.println("ID of Tetanic is: " + id);
+
             } else {
                 System.out.println("Not a valid option.");
             }
@@ -236,13 +242,13 @@ public class UserInterface {
 
         personDAO.addPerson(person);
     }
-    
+
     public void addGenre() throws SQLException {
         System.out.println("");
         System.out.print("Insert genre: ");
         String genre = scanner.nextLine();
         GenreDAO genreDAO = new GenreDAO(conn);
-        
+
         genreDAO.addGenre(genre);
     }
 
@@ -316,7 +322,7 @@ public class UserInterface {
             System.out.println(title + " (" + year + "), score: " + score);
         }
         System.out.println("");
-        
+
     }
 
 }
