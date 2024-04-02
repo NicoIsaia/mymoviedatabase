@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -104,6 +105,26 @@ public class MovieDAO extends DatabaseDAO {
             return null;
         }
 
+    }
+    
+    public ArrayList getByYear(Integer year) throws SQLException {
+        ArrayList<Movie> result = new ArrayList<>();
+        String statement = "SELECT title, year, score, watched from Movies where year = ?";
+        PreparedStatement selectByYear = conn.prepareStatement(statement);
+        selectByYear.setInt(1, year);
+        ResultSet rs = selectByYear.executeQuery();
+        while (rs.next()) {
+            String title = rs.getString("title");
+            Integer movieYear = rs.getInt("year");
+            Float score = rs.getFloat("score");
+            Boolean watched = rs.getBoolean("watched");
+            Movie movie = new Movie(title, movieYear);
+            movie.setScore(score);
+            movie.setWatched(watched);
+            result.add(movie);
+        }
+        
+        return result;
     }
 
     // TODO searchByTitleSoft, searchByTitleStrict, movieToGenre, movieToStar, movieToDirector

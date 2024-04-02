@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -59,8 +60,12 @@ public class UserInterface {
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
                 MovieDAO movieDao = new MovieDAO(conn);
-                    Integer id = movieDao.getMovieId("Tetanic", 1997);
-                    System.out.println("ID of Tetanic is: " + id);
+                ArrayList<Movie> movies = movieDao.getByYear(185);
+                System.out.println("Movies from 1985");
+                System.out.println("Movies found: " + movies.size());
+                for (Movie movie : movies) {
+                    System.out.println(movie.getTitle());
+                }
 
             } else {
                 System.out.println("Not a valid option.");
