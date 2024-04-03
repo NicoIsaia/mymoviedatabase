@@ -79,4 +79,21 @@ public class PersonDAO extends DatabaseDAO {
             return null;
         }
     }
+    
+    public Integer getPersonId(String name) throws SQLException {
+        if (personExists(name)) {
+            String statement = "SELECT id FROM people WHERE name = ?";
+            PreparedStatement selectStatement = conn.prepareStatement(statement);
+            selectStatement.setString(1, name);
+            ResultSet rs = selectStatement.executeQuery();
+            if (rs.next()) {
+                Integer id = rs.getInt("id");
+                return id;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 }
