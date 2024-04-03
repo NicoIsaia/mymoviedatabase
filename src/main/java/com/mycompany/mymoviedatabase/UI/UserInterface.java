@@ -59,8 +59,7 @@ public class UserInterface {
                 break;
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
-                MovieDAO movieDao = new MovieDAO(conn);
-                movieDao.deleteMovie(movieDao.getMovieId("Todelete", 2024));
+                PersonDAO personDAO = new PersonDAO(conn);
 
             } else {
                 System.out.println("Not a valid option.");

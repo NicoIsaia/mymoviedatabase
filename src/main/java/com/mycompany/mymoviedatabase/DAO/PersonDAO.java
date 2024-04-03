@@ -12,16 +12,13 @@ import java.sql.SQLException;
  */
 public class PersonDAO extends DatabaseDAO {
 
-    private Person person;
-
     public PersonDAO(Connection conn) {
         super(conn);
     }
 
     public void addPerson(Person person) throws SQLException {
-        this.person = person;
 
-        String name = this.person.getName();
+        String name = person.getName();
 
         if (personExists(name)) {
             System.out.println("Person already in database.");
@@ -64,5 +61,22 @@ public class PersonDAO extends DatabaseDAO {
         ResultSet rs = selectPerson.executeQuery();
 
         return rs.next();
+    }
+    
+    public Integer getPersonId(Person person) throws SQLException {
+        if (personExists(person.getName())) {
+            String statement = "SELECT id FROM people WHERE name = ?";
+            PreparedStatement selectStatement = conn.prepareStatement(statement);
+            selectStatement.setString(1, person.getName());
+            ResultSet rs = selectStatement.executeQuery();
+            if (rs.next()) {
+                Integer id = rs.getInt("id");
+                return id;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }
