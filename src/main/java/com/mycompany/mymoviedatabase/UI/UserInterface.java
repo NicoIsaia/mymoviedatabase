@@ -60,12 +60,8 @@ public class UserInterface {
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
                 MovieDAO movieDao = new MovieDAO(conn);
-                ArrayList<Movie> movies = movieDao.getByYear(185);
-                System.out.println("Movies from 1985");
-                System.out.println("Movies found: " + movies.size());
-                for (Movie movie : movies) {
-                    System.out.println(movie.getTitle());
-                }
+                Movie movie = movieDao.getById(3);
+                System.out.println("The title of the third movie is " + movie.getTitle());
 
             } else {
                 System.out.println("Not a valid option.");

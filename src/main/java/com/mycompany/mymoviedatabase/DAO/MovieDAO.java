@@ -126,6 +126,39 @@ public class MovieDAO extends DatabaseDAO {
         
         return result;
     }
+    
+    public Movie getById(Integer id) throws SQLException {
+        String statement = "SELECT title, year, score, watched from Movies where id = ?";
+        PreparedStatement selectById = conn.prepareStatement(statement);
+        selectById.setInt(1, id);
+        ResultSet rs = selectById.executeQuery();
+        if (rs.next()) {
+            Movie movie = new Movie(rs.getString("title"), rs.getInt("year"));
+            movie.setScore(rs.getFloat("score"));
+            movie.setWatched(rs.getBoolean("watched"));
+            return movie;
+        } else {
+            return null;
+        }
+        
+    }
+    
+    public void modifyMovie(Integer id, Movie movie) throws SQLException {
+        String statement = "UPDATE movies "
+                + "SET title = ?, year = ?, score = ?, watched = ? "
+                + "WHERE id = ?";
+        
+        PreparedStatement updateStatement = conn.prepareStatement(statement);
+        updateStatement.setString(1, movie.getTitle());
+        updateStatement.setInt(2, movie.getYear());
+        updateStatement.setFloat(3, movie.getScore());
+        updateStatement.setBoolean(4, movie.isWatched());
+        updateStatement.setInt(5, id);
+        
+        updateStatement.execute();
+    }
+    
+    
 
     // TODO searchByTitleSoft, searchByTitleStrict, movieToGenre, movieToStar, movieToDirector
     // getMovieId, getPersonId, getGenreId, getByTitle, getByYear...
