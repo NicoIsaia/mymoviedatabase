@@ -140,7 +140,6 @@ public class MovieDAO extends DatabaseDAO {
         } else {
             return null;
         }
-        
     }
     
     public void modifyMovie(Integer id, Movie movie) throws SQLException {
@@ -156,6 +155,24 @@ public class MovieDAO extends DatabaseDAO {
         updateStatement.setInt(5, id);
         
         updateStatement.execute();
+    }
+    
+    public void deleteMovie(Integer id) throws SQLException {
+        Movie movie = getById(id);
+        System.out.println("Deleting " + movie.getTitle() + 
+                " (" + movie.getYear() + ")");
+        
+        String statement = "DELETE FROM movies WHERE id = ?";
+        PreparedStatement deleteStatement = conn.prepareStatement(statement);
+        deleteStatement.setInt(1, id);
+        Integer rows = deleteStatement.executeUpdate();
+        if (rows == 1) {
+            System.out.println("Movie deleted successfully.");
+            System.out.println("");
+        } else {
+            System.out.println(rows + " movies removed!");
+        }
+        
     }
     
     
