@@ -59,16 +59,7 @@ public class UserInterface {
                 break;
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
-                GenreDAO genreDAO = new GenreDAO(conn);
-                ArrayList<String> genres = genreDAO.listGenres();
                 
-                for (String genre : genres) {
-                    System.out.println(genre);
-                }
-                
-                System.out.println(genreDAO.getById(1));
-                
-
             } else {
                 System.out.println("Not a valid option.");
             }
