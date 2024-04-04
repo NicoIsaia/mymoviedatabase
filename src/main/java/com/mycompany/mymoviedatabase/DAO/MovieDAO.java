@@ -106,7 +106,7 @@ public class MovieDAO extends DatabaseDAO {
         }
 
     }
-    
+
     public ArrayList getByYear(Integer year) throws SQLException {
         ArrayList<Movie> result = new ArrayList<>();
         String statement = "SELECT title, year, score, watched from Movies where year = ?";
@@ -123,12 +123,32 @@ public class MovieDAO extends DatabaseDAO {
             movie.setWatched(watched);
             result.add(movie);
         }
-        
+
         return result;
     }
-    
+
+    public ArrayList getByScore(Float score) throws SQLException {
+        ArrayList<Movie> result = new ArrayList<>();
+        String st = "SELECT title, year, score, watched FROM movies WHERE score > ?";
+        PreparedStatement selectByScore = conn.prepareStatement(st);
+        selectByScore.setFloat(1, score);
+        ResultSet rs = selectByScore.executeQuery();
+        while (rs.next()) {
+            String title = rs.getString("title");
+            Integer movieYear = rs.getInt("year");
+            Float movieScore = rs.getFloat("score");
+            Boolean watched = rs.getBoolean("watched");
+            Movie movie = new Movie(title, movieYear);
+            movie.setScore(movieScore);
+            movie.setWatched(watched);
+            result.add(movie);
+        }
+
+        return result;
+    }
+
     public Movie getById(Integer id) throws SQLException {
-        String statement = "SELECT title, year, score, watched from Movies where id = ?";
+        String statement = "SELECT title, year, score, watched FROM movies WHERE id = ?";
         PreparedStatement selectById = conn.prepareStatement(statement);
         selectById.setInt(1, id);
         ResultSet rs = selectById.executeQuery();
@@ -141,27 +161,27 @@ public class MovieDAO extends DatabaseDAO {
             return null;
         }
     }
-    
+
     public void modifyMovie(Integer id, Movie movie) throws SQLException {
         String statement = "UPDATE movies "
                 + "SET title = ?, year = ?, score = ?, watched = ? "
                 + "WHERE id = ?";
-        
+
         PreparedStatement updateStatement = conn.prepareStatement(statement);
         updateStatement.setString(1, movie.getTitle());
         updateStatement.setInt(2, movie.getYear());
         updateStatement.setFloat(3, movie.getScore());
         updateStatement.setBoolean(4, movie.isWatched());
         updateStatement.setInt(5, id);
-        
+
         updateStatement.execute();
     }
-    
+
     public void deleteMovie(Integer id) throws SQLException {
         Movie movie = getById(id);
-        System.out.println("Deleting " + movie.getTitle() + 
-                " (" + movie.getYear() + ")");
-        
+        System.out.println("Deleting " + movie.getTitle()
+                + " (" + movie.getYear() + ")");
+
         String statement = "DELETE FROM movies WHERE id = ?";
         PreparedStatement deleteStatement = conn.prepareStatement(statement);
         deleteStatement.setInt(1, id);
@@ -172,10 +192,8 @@ public class MovieDAO extends DatabaseDAO {
         } else {
             System.out.println(rows + " movies removed!");
         }
-        
+
     }
-    
-    
 
     // TODO searchByTitleSoft, searchByTitleStrict, movieToGenre, movieToStar, movieToDirector
     // getMovieId, getPersonId, getGenreId, getByTitle, getByYear...

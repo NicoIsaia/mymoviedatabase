@@ -59,18 +59,14 @@ public class UserInterface {
                 break;
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
-                PersonDAO personDAO = new PersonDAO(conn);
-                ArrayList<String> people = personDAO.listPeople();
-                for (String person : people) {
-                    System.out.println(person);
+                MovieDAO movieDAO = new MovieDAO(conn);
+                
+                ArrayList<Movie> movies = movieDAO.getByScore(8.0F);
+                
+                for (Movie movie : movies) {
+                    System.out.println(movie.getTitle() + " (" + movie.getYear() + ") - " + movie.getScore());
                 }
                 
-                personDAO.deletePerson(12);
-                
-                people = personDAO.listPeople();
-                for (String person : people) {
-                    System.out.println(person);
-                }                
 
             } else {
                 System.out.println("Not a valid option.");
