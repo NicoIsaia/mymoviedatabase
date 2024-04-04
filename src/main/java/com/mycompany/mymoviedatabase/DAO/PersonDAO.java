@@ -161,4 +161,21 @@ public class PersonDAO extends DatabaseDAO {
 
         return people;
     }
+
+    public void deletePerson(Integer id) throws SQLException {
+        if (personExists(id)) {
+            Person person = getPerson(id);
+            String st = "DELETE FROM people WHERE id = ?";
+            PreparedStatement deleteSt = conn.prepareStatement(st);
+            deleteSt.setInt(1, id);
+            Integer rows = deleteSt.executeUpdate();
+            if (rows == 1) {
+                System.out.println(person.getName() + " deleted successfully.");
+            } else {
+                System.out.println(rows + " people removed!");
+            }
+        } else {
+            System.out.println("Invalid ID.");
+        }
+    }
 }

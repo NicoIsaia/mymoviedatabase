@@ -64,6 +64,13 @@ public class UserInterface {
                 for (String person : people) {
                     System.out.println(person);
                 }
+                
+                personDAO.deletePerson(12);
+                
+                people = personDAO.listPeople();
+                for (String person : people) {
+                    System.out.println(person);
+                }                
 
             } else {
                 System.out.println("Not a valid option.");
