@@ -60,7 +60,10 @@ public class UserInterface {
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
                 PersonDAO personDAO = new PersonDAO(conn);
-                System.out.println("This should be 12: " + personDAO.getPersonId("Test Person"));
+                ArrayList<String> people = personDAO.listPeople();
+                for (String person : people) {
+                    System.out.println(person);
+                }
 
             } else {
                 System.out.println("Not a valid option.");

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -53,6 +54,21 @@ public class PersonDAO extends DatabaseDAO {
         }
     }
 
+    public Person getPerson(Integer id) throws SQLException {
+
+        PreparedStatement selectPerson = conn.prepareStatement("SELECT name FROM people WHERE id = ?");
+
+        selectPerson.setInt(1, id);
+
+        ResultSet rs = selectPerson.executeQuery();
+
+        if (rs.next()) {
+            return new Person(rs.getString("name"));
+        } else {
+            return null;
+        }
+    }
+
     public boolean personExists(String name) throws SQLException {
         PreparedStatement selectPerson = conn.prepareStatement("SELECT name FROM people WHERE name = ?");
 
@@ -62,7 +78,17 @@ public class PersonDAO extends DatabaseDAO {
 
         return rs.next();
     }
-    
+
+    public boolean personExists(Integer id) throws SQLException {
+        PreparedStatement selectPerson = conn.prepareStatement("SELECT name FROM people WHERE id = ?");
+
+        selectPerson.setInt(1, id);
+
+        ResultSet rs = selectPerson.executeQuery();
+
+        return rs.next();
+    }
+
     public Integer getPersonId(Person person) throws SQLException {
         if (personExists(person.getName())) {
             String statement = "SELECT id FROM people WHERE name = ?";
@@ -79,7 +105,7 @@ public class PersonDAO extends DatabaseDAO {
             return null;
         }
     }
-    
+
     public Integer getPersonId(String name) throws SQLException {
         if (personExists(name)) {
             String statement = "SELECT id FROM people WHERE name = ?";
@@ -95,5 +121,44 @@ public class PersonDAO extends DatabaseDAO {
         } else {
             return null;
         }
+    }
+
+    public void modifyPerson(Integer id, String name) throws SQLException {
+        if (!personExists(name)) {
+            if (personExists(id)) {
+
+                String st = "UPDATE people "
+                        + "SET name = ? WHERE id = ?";
+                PreparedStatement updateSt = conn.prepareStatement(st);
+
+                updateSt.setString(1, name);
+                updateSt.setInt(2, id);
+
+                Integer rows = updateSt.executeUpdate();
+
+                if (rows == 1) {
+                    System.out.println("One row updated correctly.");
+                } else {
+                    System.out.println("There was a problem.");
+                }
+            } else {
+                System.out.println("Invalid ID.");
+            }
+        } else {
+            System.out.println("Name already in database.");
+        }
+    }
+
+    public ArrayList listPeople() throws SQLException {
+        String st = "SELECT * FROM people";
+        PreparedStatement select = conn.prepareStatement(st);
+        ResultSet rs = select.executeQuery();
+        ArrayList<String> people = new ArrayList<>();
+        while (rs.next()) {
+            String person = "id: " + rs.getInt("id") + " - " + rs.getString("name");
+            people.add(person);
+        }
+
+        return people;
     }
 }
