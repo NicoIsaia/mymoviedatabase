@@ -59,13 +59,14 @@ public class UserInterface {
                 break;
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
-                MovieDAO movieDAO = new MovieDAO(conn);
+                GenreDAO genreDAO = new GenreDAO(conn);
+                ArrayList<String> genres = genreDAO.listGenres();
                 
-                ArrayList<Movie> movies = movieDAO.getByScore(8.0F);
-                
-                for (Movie movie : movies) {
-                    System.out.println(movie.getTitle() + " (" + movie.getYear() + ") - " + movie.getScore());
+                for (String genre : genres) {
+                    System.out.println(genre);
                 }
+                
+                System.out.println(genreDAO.getById(1));
                 
 
             } else {

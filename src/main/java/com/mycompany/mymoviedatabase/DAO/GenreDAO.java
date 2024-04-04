@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -61,5 +62,32 @@ public class GenreDAO {
         } else {
             return -1;
         }
+    }
+
+    public String getById(Integer id) throws SQLException {
+        String st = "SELECT genre FROM genres WHERE id = ?";
+        PreparedStatement select = conn.prepareStatement(st);
+        select.setInt(1, id);
+        ResultSet rs = select.executeQuery();
+
+        if (rs.next()) {
+            return rs.getString("genre");
+        } else {
+            System.out.println("Genre does not exist.");
+            return null;
+        }
+    }
+
+    public ArrayList listGenres() throws SQLException {
+        ArrayList<String> genres = new ArrayList<>();
+        String st = "SELECT * FROM genres";
+        PreparedStatement select = conn.prepareStatement(st);
+        ResultSet rs = select.executeQuery();
+        
+        while (rs.next()) {
+            genres.add(rs.getString("genre"));
+        }
+        
+        return genres;
     }
 }
