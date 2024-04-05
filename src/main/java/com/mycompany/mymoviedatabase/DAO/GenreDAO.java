@@ -10,12 +10,10 @@ import java.util.ArrayList;
  *
  * @author NicoIsaia
  */
-public class GenreDAO {
-
-    private Connection conn;
+public class GenreDAO extends DatabaseDAO {
 
     public GenreDAO(Connection conn) {
-        this.conn = conn;
+        super(conn);
     }
 
     public void addGenre(String genre) throws SQLException {

@@ -1,5 +1,6 @@
 package com.mycompany.mymoviedatabase.UI;
 
+import com.mycompany.mymoviedatabase.DAO.DirectedDAO;
 import com.mycompany.mymoviedatabase.DAO.GenreDAO;
 import com.mycompany.mymoviedatabase.DAO.MovieDAO;
 import com.mycompany.mymoviedatabase.DAO.PersonDAO;
@@ -59,6 +60,27 @@ public class UserInterface {
                 break;
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
+                MovieDAO movieDAO = new MovieDAO(conn);
+                PersonDAO personDAO = new PersonDAO(conn);                
+                DirectedDAO directedDAO = new DirectedDAO(conn);
+                
+                Movie avatar = new Movie("avatar", 2009);
+                avatar.setScore(7.9F);
+                avatar.setWatched(true);
+                movieDAO.addMovie(avatar);
+                
+                Integer avatarID = movieDAO.getMovieId("avatar", 2009);
+                
+                Integer directorID = personDAO.getPersonId("James Cameron");
+                
+                ArrayList<Integer> directors = directedDAO.searchDirectorsByMovie(avatarID);
+                
+                for (Integer director : directors) {
+                    System.out.println(directorID + " is " + director);
+                }
+                
+                
+                
                 
             } else {
                 System.out.println("Not a valid option.");
