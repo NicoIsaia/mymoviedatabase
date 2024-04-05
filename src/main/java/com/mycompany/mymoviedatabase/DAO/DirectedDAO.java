@@ -50,7 +50,7 @@ public class DirectedDAO extends DatabaseDAO {
 
         return movies;
     }
-    
+
     public ArrayList searchDirectorsByMovie(Integer movieID) throws SQLException {
         ArrayList<Integer> directors = new ArrayList<>();
         String statement = "SELECT people_id FROM directed WHERE movie_id = ?";
@@ -63,5 +63,23 @@ public class DirectedDAO extends DatabaseDAO {
         }
 
         return directors;
+    }
+
+    public void delete(Integer movieID, Integer personID) throws SQLException {
+        if (searchMoviesByDirector(personID).contains(movieID)) {
+            String statement = "DELETE FROM directed WHERE movie_id = ? AND people_id = ?";
+            PreparedStatement st = conn.prepareStatement(statement);
+            st.setInt(1, movieID);
+            st.setInt(2, personID);
+            Integer rows = st.executeUpdate();
+
+            if (rows == 1) {
+                System.out.println("Relation removed successfully.");
+            } else {
+                System.out.println("There was an error.");
+            }
+        } else {
+            System.out.println("Relation does not exist.");
+        }
     }
 }
