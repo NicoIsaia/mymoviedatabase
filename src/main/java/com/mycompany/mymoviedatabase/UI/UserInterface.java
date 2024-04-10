@@ -61,7 +61,6 @@ public class UserInterface {
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
                 
-                
 
             } else {
                 System.out.println("Not a valid option.");

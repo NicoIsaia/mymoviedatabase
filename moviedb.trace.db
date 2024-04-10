@@ -545,3 +545,7 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/yon
 	at org.h2.mvstore.FileStore.open(FileStore.java:173)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
 	... 19 more
+2024-04-10 17:47:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Tabla "DEOM" no encontrada
+Table "DEOM" not found; SQL statement:
+DELETE DEOM movie_genres WHERE movie_id = ? AND genre_id = ? [42102-197]

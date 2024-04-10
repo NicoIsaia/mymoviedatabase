@@ -72,4 +72,21 @@ public class MovieGenresDAO extends DatabaseDAO {
         
         return genres;
     }
+    
+    public void delete(Integer movieID, Integer genreID) throws SQLException {
+        if (searchMoviesByGenre(genreID).contains(movieID)) {
+            String statement = "DELETE FROM movie_genres WHERE movie_id = ? AND genre_id = ?";
+            PreparedStatement st = conn.prepareStatement(statement);
+            st.setInt(1, movieID);
+            st.setInt(2, genreID);
+            Integer rows = st.executeUpdate();
+            if(rows == 1) {
+                System.out.println("Relation removed successfully.");
+            } else {
+                System.out.println("An error ocurred.");
+            }
+        } else {
+            System.out.println("Relation does not exist.");
+        }
+    }
 }
