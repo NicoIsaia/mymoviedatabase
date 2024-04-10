@@ -1,8 +1,8 @@
 package com.mycompany.mymoviedatabase.UI;
 
+import com.mycompany.mymoviedatabase.DAO.DirectedDAO;
 import com.mycompany.mymoviedatabase.DAO.GenreDAO;
 import com.mycompany.mymoviedatabase.DAO.MovieDAO;
-import com.mycompany.mymoviedatabase.DAO.MovieGenresDAO;
 import com.mycompany.mymoviedatabase.DAO.PersonDAO;
 import com.mycompany.mymoviedatabase.model.Movie;
 import com.mycompany.mymoviedatabase.model.Person;
@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -60,7 +59,6 @@ public class UserInterface {
                 break;
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
-                
 
             } else {
                 System.out.println("Not a valid option.");
@@ -215,37 +213,56 @@ public class UserInterface {
         System.out.println("");
         System.out.print("Set watched status (type 'yes'/'y' or 'no'/'n'): ");
         String watched = scanner.nextLine().toLowerCase();
-        
+
         String movieData = title + " (" + year + ") - Score: " + score;
-        
+
         if (watched.contains("y")) {
             movieData += " - watched.";
         } else {
             movieData += " - Not watched.";
         }
         System.out.println("You wish to add: \n" + movieData);
-        
+
         System.out.print("Is this correct: ");
         String answer = scanner.nextLine();
         if (answer.contains("y")) {
-            
-        
 
-        Movie movie = new Movie(title, year);
+            Movie movie = new Movie(title, year);
 
-        movie.setScore(score);
+            movie.setScore(score);
 
-        if (watched.contains("y")) {
-            movie.setWatched(true);
-        } else {
-            movie.setWatched(false);
-        }
+            if (watched.contains("y")) {
+                movie.setWatched(true);
+            } else {
+                movie.setWatched(false);
+            }
 
-        MovieDAO movieDAO = new MovieDAO(conn);
-        movieDAO.addMovie(movie);
-        System.out.println("Added: " + movieData);
-        
-        
+            MovieDAO movieDAO = new MovieDAO(conn);
+            movieDAO.addMovie(movie);
+            System.out.println("Added: " + movieData);
+
+            System.out.print("Do you wish to add a director? ");
+            answer = scanner.nextLine();
+            if (answer.contains("y")) {
+                String director = "a";
+                while (!director.equals("")) {
+                    System.out.print("Enter director name (empty to cancel): ");
+                    director = scanner.nextLine();
+                    PersonDAO personDAO = new PersonDAO(conn);
+                    if (!personDAO.personExists(director)) {
+                        Person dir = new Person(director);
+                        personDAO.addPerson(dir);
+                        Integer directorID = personDAO.getPersonId(dir);
+                        Integer movieID = movieDAO.getMovieId(title, year);
+                        DirectedDAO directedDAO = new DirectedDAO(conn);
+                        // Add relation
+                    } else {
+                        // Add what happens if director wasn't on database
+                    }
+                }
+            } else {
+                System.out.println("That is ok, you will be able to add it later.");
+            }
         } else {
             System.out.println("Load cancelled.");
         }
