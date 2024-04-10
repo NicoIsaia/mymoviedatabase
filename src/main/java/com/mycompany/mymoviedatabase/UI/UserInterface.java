@@ -215,6 +215,21 @@ public class UserInterface {
         System.out.println("");
         System.out.print("Set watched status (type 'yes'/'y' or 'no'/'n'): ");
         String watched = scanner.nextLine().toLowerCase();
+        
+        String movieData = title + " (" + year + ") - Score: " + score;
+        
+        if (watched.contains("y")) {
+            movieData += " - watched.";
+        } else {
+            movieData += " - Not watched.";
+        }
+        System.out.println("You wish to add: \n" + movieData);
+        
+        System.out.print("Is this correct: ");
+        String answer = scanner.nextLine();
+        if (answer.contains("y")) {
+            
+        
 
         Movie movie = new Movie(title, year);
 
@@ -228,7 +243,12 @@ public class UserInterface {
 
         MovieDAO movieDAO = new MovieDAO(conn);
         movieDAO.addMovie(movie);
-
+        System.out.println("Added: " + movieData);
+        
+        
+        } else {
+            System.out.println("Load cancelled.");
+        }
     }
 
     private static void addPerson(Connection conn, Scanner scanner) throws SQLException {
