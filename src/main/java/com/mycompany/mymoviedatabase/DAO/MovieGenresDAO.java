@@ -56,4 +56,20 @@ public class MovieGenresDAO extends DatabaseDAO {
         
         return movies;
     }
+    
+    public ArrayList searchGenresByMovie(Integer movieID) throws SQLException {
+        ArrayList<Integer> genres = new ArrayList<>();
+        String statement = "SELECT genre_id FROM movie_genres WHERE movie_id = ?";
+        PreparedStatement st = conn.prepareStatement(statement);
+        
+        st.setInt(1, movieID);
+        
+        ResultSet rs = st.executeQuery();
+        
+        while(rs.next()) {
+            genres.add(rs.getInt("genre_id"));
+        }
+        
+        return genres;
+    }
 }

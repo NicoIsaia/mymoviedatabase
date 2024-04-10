@@ -2,8 +2,8 @@ package com.mycompany.mymoviedatabase.UI;
 
 import com.mycompany.mymoviedatabase.DAO.GenreDAO;
 import com.mycompany.mymoviedatabase.DAO.MovieDAO;
+import com.mycompany.mymoviedatabase.DAO.MovieGenresDAO;
 import com.mycompany.mymoviedatabase.DAO.PersonDAO;
-import com.mycompany.mymoviedatabase.DAO.StarredDAO;
 import com.mycompany.mymoviedatabase.model.Movie;
 import com.mycompany.mymoviedatabase.model.Person;
 import java.sql.Connection;
@@ -27,7 +27,7 @@ public class UserInterface {
         this.conn = conn;
     }
 
-    public void run(Connection conn, Scanner scanner) throws SQLException {
+    public void run() throws SQLException {
         String option = "";
         while (true) {
             System.out.println("Options");
@@ -60,6 +60,8 @@ public class UserInterface {
                 break;
             } else if (option.equalsIgnoreCase("t")) {
                 // field to test stuff -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*====
+                
+                
 
             } else {
                 System.out.println("Not a valid option.");

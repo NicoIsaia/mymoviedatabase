@@ -19,7 +19,7 @@ public class Mymoviedatabase {
         Scanner scanner = new Scanner(System.in);
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./moviedb;INIT=RUNSCRIPT FROM 'classpath:sqlTemplate.sql';")) {
             UserInterface ui = new UserInterface(conn, scanner);
-            ui.run(conn, scanner);
+            ui.run();
             
             
         } catch (SQLException e) {
