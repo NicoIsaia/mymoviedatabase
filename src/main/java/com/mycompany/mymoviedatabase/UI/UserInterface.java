@@ -4,13 +4,13 @@ import com.mycompany.mymoviedatabase.DAO.DirectedDAO;
 import com.mycompany.mymoviedatabase.DAO.GenreDAO;
 import com.mycompany.mymoviedatabase.DAO.MovieDAO;
 import com.mycompany.mymoviedatabase.DAO.PersonDAO;
+import com.mycompany.mymoviedatabase.DAO.StarredDAO;
 import com.mycompany.mymoviedatabase.model.Movie;
 import com.mycompany.mymoviedatabase.model.Person;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -265,6 +265,38 @@ public class UserInterface {
                             DirectedDAO directedDAO = new DirectedDAO(conn);
                             directedDAO.create(movieID, directorID);
                             System.out.println(director + " directed: " + movieData);
+                        }
+                    } else {
+                        System.out.println("Returning to menu.");
+                    }
+                }
+            } else {
+                System.out.println("That is ok, you will be able to add it later.");
+            }
+
+            System.out.print("Do you wish to add the stars of the movie? ");
+            answer = scanner.nextLine();
+            if (answer.contains("y")) {
+                String star = "a";
+                while (!star.isBlank()) {
+                    System.out.print("Enter star name (empty to cancel): ");
+                    star = scanner.nextLine();
+                    if (!star.isBlank()) {
+                        PersonDAO personDAO = new PersonDAO(conn);
+                        if (!personDAO.personExists(star)) {
+                            Person sta = new Person(star);
+                            personDAO.addPerson(sta);
+                            Integer starID = personDAO.getPersonId(sta);
+                            Integer movieID = movieDAO.getMovieId(title, year);
+                            StarredDAO starredDAO = new StarredDAO(conn);
+                            starredDAO.create(movieID, starID);
+                            System.out.println(star + " starred in: " + movieData);
+                        } else {
+                            Integer starID = personDAO.getPersonId(star);
+                            Integer movieID = movieDAO.getMovieId(title, year);
+                            StarredDAO starredDAO = new StarredDAO(conn);
+                            starredDAO.create(movieID, starID);
+                            System.out.println(star + " starred in: " + movieData);
                         }
                     } else {
                         System.out.println("Returning to menu.");
