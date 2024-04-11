@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -245,19 +246,28 @@ public class UserInterface {
             answer = scanner.nextLine();
             if (answer.contains("y")) {
                 String director = "a";
-                while (!director.equals("")) {
+                while (!director.isBlank()) {
                     System.out.print("Enter director name (empty to cancel): ");
                     director = scanner.nextLine();
-                    PersonDAO personDAO = new PersonDAO(conn);
-                    if (!personDAO.personExists(director)) {
-                        Person dir = new Person(director);
-                        personDAO.addPerson(dir);
-                        Integer directorID = personDAO.getPersonId(dir);
-                        Integer movieID = movieDAO.getMovieId(title, year);
-                        DirectedDAO directedDAO = new DirectedDAO(conn);
-                        // Add relation
+                    if (!director.isBlank()) {
+                        PersonDAO personDAO = new PersonDAO(conn);
+                        if (!personDAO.personExists(director)) {
+                            Person dir = new Person(director);
+                            personDAO.addPerson(dir);
+                            Integer directorID = personDAO.getPersonId(dir);
+                            Integer movieID = movieDAO.getMovieId(title, year);
+                            DirectedDAO directedDAO = new DirectedDAO(conn);
+                            directedDAO.create(movieID, directorID);
+                            System.out.println(director + " directed: " + movieData);
+                        } else {
+                            Integer directorID = personDAO.getPersonId(director);
+                            Integer movieID = movieDAO.getMovieId(title, year);
+                            DirectedDAO directedDAO = new DirectedDAO(conn);
+                            directedDAO.create(movieID, directorID);
+                            System.out.println(director + " directed: " + movieData);
+                        }
                     } else {
-                        // Add what happens if director wasn't on database
+                        System.out.println("Returning to menu.");
                     }
                 }
             } else {
