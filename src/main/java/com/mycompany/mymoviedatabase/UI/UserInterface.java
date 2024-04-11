@@ -94,9 +94,11 @@ public class UserInterface {
             } else if (option.equals("1")) {
                 addMovie(conn, scanner);
             } else if (option.equals("2")) {
-                addPerson(conn, scanner);
+                addPerson();
             } else if (option.equals("3")) {
                 addGenre();
+            } else if (option.equals("4")) {
+                setDirected();
             }
         }
 
@@ -310,7 +312,7 @@ public class UserInterface {
         }
     }
 
-    private static void addPerson(Connection conn, Scanner scanner) throws SQLException {
+    public void addPerson() throws SQLException {
         System.out.println("");
         System.out.print("Insert full name: ");
         String name = scanner.nextLine();
@@ -329,6 +331,33 @@ public class UserInterface {
         GenreDAO genreDAO = new GenreDAO(conn);
 
         genreDAO.addGenre(genre);
+    }
+    
+    public void setDirected() throws SQLException {
+        PersonDAO personDAO = new PersonDAO(conn);
+        MovieDAO movieDAO = new MovieDAO(conn);
+        DirectedDAO directedDAO = new DirectedDAO(conn);
+        
+        System.out.print("Enter movie title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter movie year: ");
+        Integer year = Integer.valueOf(scanner.nextLine());
+        if (movieDAO.movieExists(title, year)) {
+            Integer movieID = movieDAO.getMovieId(title, year);
+            System.out.print("Enter director name: ");
+            String director = scanner.nextLine();
+            if (personDAO.personExists(director)) {
+                Integer directorID = personDAO.getPersonId(director);
+                directedDAO.create(movieID, directorID);
+            } else {
+                Person dire = new Person(director);
+                personDAO.addPerson(dire);
+                Integer directorID = personDAO.getPersonId(dire);
+                directedDAO.create(movieID, directorID);
+            }
+        } else {
+            System.out.println("Movie does not exist, add it to database first.");
+        }
     }
 
     public static void listMovies(Connection conn, Scanner scanner) throws SQLException {
