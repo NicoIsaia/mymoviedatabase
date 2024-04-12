@@ -38,6 +38,26 @@ public class PersonDAO extends DatabaseDAO {
 
         }
     }
+    
+        public void addPerson(String name) throws SQLException {
+
+        if (personExists(name)) {
+            System.out.println("Person already in database.");
+        } else {
+            PreparedStatement insertPerson = conn.prepareStatement("INSERT INTO people (name)"
+                    + "VALUES (?)");
+
+            insertPerson.setString(1, name);
+            Integer rowsAffected = insertPerson.executeUpdate();
+            System.out.println("");
+            if (rowsAffected == 1) {
+                System.out.println(name + " added to the database.");
+            } else {
+                System.out.println("Insert failed.");
+            }
+
+        }
+    }
 
     public Person getPerson(String name) throws SQLException {
 
