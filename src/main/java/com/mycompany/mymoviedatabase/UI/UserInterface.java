@@ -99,6 +99,10 @@ public class UserInterface {
                 addGenre();
             } else if (option.equals("4")) {
                 setDirected();
+            } else if (option.equals("5")) {
+                setStarred();
+            } else {
+                System.out.println("Not a valid option.");
             }
         }
 
@@ -332,12 +336,12 @@ public class UserInterface {
 
         genreDAO.addGenre(genre);
     }
-    
+
     public void setDirected() throws SQLException {
         PersonDAO personDAO = new PersonDAO(conn);
         MovieDAO movieDAO = new MovieDAO(conn);
         DirectedDAO directedDAO = new DirectedDAO(conn);
-        
+
         System.out.print("Enter movie title: ");
         String title = scanner.nextLine();
         System.out.print("Enter movie year: ");
@@ -354,6 +358,33 @@ public class UserInterface {
                 personDAO.addPerson(dire);
                 Integer directorID = personDAO.getPersonId(dire);
                 directedDAO.create(movieID, directorID);
+            }
+        } else {
+            System.out.println("Movie does not exist, add it to database first.");
+        }
+    }
+
+    public void setStarred() throws SQLException {
+        PersonDAO personDAO = new PersonDAO(conn);
+        MovieDAO movieDAO = new MovieDAO(conn);
+        StarredDAO starredDAO = new StarredDAO(conn);
+
+        System.out.print("Enter movie title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter movie year: ");
+        Integer year = Integer.valueOf(scanner.nextLine());
+        if (movieDAO.movieExists(title, year)) {
+            Integer movieID = movieDAO.getMovieId(title, year);
+            System.out.print("Enter star name: ");
+            String star = scanner.nextLine();
+            if (personDAO.personExists(star)) {
+                Integer starID = personDAO.getPersonId(star);
+                starredDAO.create(movieID, starID);
+            } else {
+                Person starOBJ = new Person(star);
+                personDAO.addPerson(starOBJ);
+                Integer starID = personDAO.getPersonId(starOBJ);
+                starredDAO.create(movieID, starID);
             }
         } else {
             System.out.println("Movie does not exist, add it to database first.");
