@@ -3,6 +3,7 @@ package com.mycompany.mymoviedatabase.UI;
 import com.mycompany.mymoviedatabase.DAO.DirectedDAO;
 import com.mycompany.mymoviedatabase.DAO.GenreDAO;
 import com.mycompany.mymoviedatabase.DAO.MovieDAO;
+import com.mycompany.mymoviedatabase.DAO.MovieGenresDAO;
 import com.mycompany.mymoviedatabase.DAO.PersonDAO;
 import com.mycompany.mymoviedatabase.DAO.StarredDAO;
 import com.mycompany.mymoviedatabase.model.Movie;
@@ -101,6 +102,8 @@ public class UserInterface {
                 setDirected();
             } else if (option.equals("5")) {
                 setStarred();
+            } else if (option.equals("6")) {
+                setGenre();
             } else {
                 System.out.println("Not a valid option.");
             }
@@ -385,6 +388,33 @@ public class UserInterface {
                 personDAO.addPerson(starOBJ);
                 Integer starID = personDAO.getPersonId(starOBJ);
                 starredDAO.create(movieID, starID);
+            }
+        } else {
+            System.out.println("Movie does not exist, add it to database first.");
+        }
+    }
+    
+    public void setGenre() throws SQLException {
+        
+        GenreDAO genreDAO = new GenreDAO(conn);
+        MovieDAO movieDAO = new MovieDAO(conn);
+        MovieGenresDAO movieGenresDAO = new MovieGenresDAO(conn);
+
+        System.out.print("Enter movie title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter movie year: ");
+        Integer year = Integer.valueOf(scanner.nextLine());
+        if (movieDAO.movieExists(title, year)) {
+            Integer movieID = movieDAO.getMovieId(title, year);
+            System.out.print("Enter genre: ");
+            String genre = scanner.nextLine();
+            if (genreDAO.genreExists(genre)) {
+                Integer genreID = genreDAO.getGenreId(genre);
+                movieGenresDAO.create(movieID, genreID);
+            } else {
+                genreDAO.addGenre(genre);
+                Integer genreID = genreDAO.getGenreId(genre);
+                movieGenresDAO.create(movieID, genreID);
             }
         } else {
             System.out.println("Movie does not exist, add it to database first.");
