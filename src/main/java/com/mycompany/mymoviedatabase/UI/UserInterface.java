@@ -46,7 +46,7 @@ public class UserInterface {
                 loadMenu(conn, scanner);
 
             } else if (option.equals("2")) {
-                modifyMenu(conn, scanner);
+                modifyMenu();
 
             } else if (option.equals("3")) {
                 listMenu(conn, scanner);
@@ -111,7 +111,7 @@ public class UserInterface {
 
     }
 
-    public static void modifyMenu(Connection conn, Scanner scanner) throws SQLException {
+    public void modifyMenu() throws SQLException {
 
         while (true) {
             System.out.println("");
@@ -120,20 +120,19 @@ public class UserInterface {
             System.out.println("1) Modify Movie");
             System.out.println("2) Modify Person");
             System.out.println("3) Modify Genre");
-            System.out.println("4) Modify Directed");
-            System.out.println("5) Modify Starring");
-            System.out.println("6) Modify Genre of a Movie");
             System.out.println("x) Back");
 
             System.out.print("Select option: ");
             String option = scanner.nextLine().toLowerCase();
-            if (option.equals("x")) {
+            if (option.equalsIgnoreCase("x")) {
                 break;
+            } else if (option.equals("1")) {
+                modifyMovie();
             }
         }
     }
 
-    public static void listMenu(Connection conn, Scanner scanner) throws SQLException {
+    public void listMenu(Connection conn, Scanner scanner) throws SQLException {
 
         while (true) {
             System.out.println("");
@@ -151,7 +150,7 @@ public class UserInterface {
             } else if (option.equals("1")) {
                 listMovies(conn, scanner);
             } else if (option.equals("2")) {
-                listPeople(conn, scanner);
+                listPeople();
             } else if (option.equals("3")) {
                 System.out.println("TODO");
             }
@@ -393,9 +392,9 @@ public class UserInterface {
             System.out.println("Movie does not exist, add it to database first.");
         }
     }
-    
+
     public void setGenre() throws SQLException {
-        
+
         GenreDAO genreDAO = new GenreDAO(conn);
         MovieDAO movieDAO = new MovieDAO(conn);
         MovieGenresDAO movieGenresDAO = new MovieGenresDAO(conn);
@@ -434,7 +433,7 @@ public class UserInterface {
         System.out.println(" ");
     }
 
-    private static void listPeople(Connection conn, Scanner scanner) throws SQLException {
+    private void listPeople() throws SQLException {
         PreparedStatement selectPeople = conn.prepareStatement("SELECT name FROM people");
         ResultSet rs = selectPeople.executeQuery();
         System.out.println("");
@@ -494,4 +493,95 @@ public class UserInterface {
 
     }
 
+    public void modifyMovie() throws SQLException {
+
+        MovieDAO movieDAO = new MovieDAO(conn);
+
+        System.out.print("Enter the title of the movie to modify: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter the year of the movie you wish to modify: ");
+        Integer year = Integer.valueOf(scanner.nextLine());
+
+        if (movieDAO.movieExists(title, year)) {
+            Integer movieID = movieDAO.getMovieId(title, year);
+            Movie movie = movieDAO.getMovie(title, year);
+
+            while (true) {
+                String movieTitle = movie.getTitle();
+                Integer movieYear = movie.getYear();
+                Float movieScore = movie.getScore();
+                Boolean movieWatched = movie.isWatched();
+
+                String info = movieTitle + " (" + movieYear + ") "
+                        + "- Score: " + movieScore + " - Watched: "
+                        + movieWatched;
+
+                System.out.println("You are about to modify " + info);
+
+                System.out.println("Modify:");
+                System.out.println("1) Title");
+                System.out.println("2) Year");
+                System.out.println("3) Score");
+                System.out.println("4) Watched status");
+                System.out.println("x) Exit and save");
+
+                System.out.print("Select option: ");
+                String option = scanner.nextLine();
+                if (option.equals("1")) {
+                    System.out.print("Enter new title (empty to cancel): ");
+                    String newTitle = scanner.nextLine();
+                    if (!newTitle.isBlank()) {
+                        movieTitle = newTitle;
+                        movie.setTitle(movieTitle);
+                    }
+                } else if (option.equals("2")) {
+                    System.out.print("Enter new year (empty to cancel): ");
+                    String newYear = scanner.nextLine();
+                    if (!newYear.isBlank()) {
+                        movieYear = Integer.valueOf(newYear);
+                        movie.setYear(movieYear);
+                    }
+                } else if (option.equals("3")) {
+                    System.out.print("Enter new score (empty to cancel): ");
+                    String newScore = scanner.nextLine();
+                    if (!newScore.isBlank()) {
+                        movieScore = Float.valueOf(newScore);
+                        movie.setScore(movieScore);
+                    }
+                } else if (option.equals("4")) {
+                    System.out.print("Enter 'y' for watched 'n' for not "
+                            + "watched (empty to cancel): ");
+                    String newWatched = scanner.nextLine().toLowerCase();
+                    if (!newWatched.isBlank()) {
+                        if (newWatched.contains("y")) {
+                            movie.setWatched(true);
+                        } else if (newWatched.contains("n")) {
+                            movie.setWatched(false);
+                        } else {
+                            System.out.println("Not a valid option.");
+                        }
+                    }
+                } else if (option.equalsIgnoreCase("x")) {
+                    break;
+                } else {
+                    System.out.println("Not a valid option.");
+                }
+
+            }
+            String movieTitle = movie.getTitle();
+            Integer movieYear = movie.getYear();
+            Float movieScore = movie.getScore();
+            Boolean movieWatched = movie.isWatched();
+
+            String info = movieTitle + " (" + movieYear + ") "
+                    + "- Score: " + movieScore + " - Watched: "
+                    + movieWatched;
+            
+            System.out.println("Changed to " + info);
+            movieDAO.modifyMovie(movieID, movie);
+
+        } else {
+            System.out.println("Movie does not exist.");
+        }
+    }
 }
