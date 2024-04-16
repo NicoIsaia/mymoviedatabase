@@ -128,6 +128,8 @@ public class UserInterface {
                 break;
             } else if (option.equals("1")) {
                 modifyMovie();
+            } else if (option.equals("2")) {
+                modifyPerson();
             }
         }
     }
@@ -576,12 +578,34 @@ public class UserInterface {
             String info = movieTitle + " (" + movieYear + ") "
                     + "- Score: " + movieScore + " - Watched: "
                     + movieWatched;
-            
+
             System.out.println("Changed to " + info);
             movieDAO.modifyMovie(movieID, movie);
 
         } else {
             System.out.println("Movie does not exist.");
+        }
+    }
+
+    public void modifyPerson() throws SQLException {
+        PersonDAO personDAO = new PersonDAO(conn);
+
+        System.out.print("Insert name of the person you wish to modify (empty to cancel): ");
+        String name = scanner.nextLine();
+
+        if (!name.isBlank()) {
+            if (personDAO.personExists(name)) {
+                Integer personID = personDAO.getPersonId(name);
+                System.out.print("Insert new name (empty to cancel): ");
+                String newName = scanner.nextLine();
+                if (!newName.isBlank()) {
+                    personDAO.modifyPerson(personID, newName);
+                } else {
+                    System.out.println("Cancelling.");
+                }
+            }
+        } else {
+            System.out.println("Going back.");
         }
     }
 }
